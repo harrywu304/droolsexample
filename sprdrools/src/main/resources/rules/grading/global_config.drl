@@ -1,0 +1,28 @@
+package rules.grading
+
+global Integer LINE_OF_JA;
+global Integer LINE_OF_JB;
+global java.util.List GLIST;
+
+declare Thresholds
+   yuwenLine: int
+end
+
+rule "init2"
+	salience 100
+	when
+	    eval(true)
+	then    
+	    Thresholds thresholds = new Thresholds();
+	    thresholds.setYuwenLine(90);
+	    insert(thresholds);
+end
+
+rule "init"
+	salience 100
+	when
+	    eval(true)
+	then    
+	    LINE_OF_JA = new Integer(270);
+	    LINE_OF_JB = new Integer(210);
+end

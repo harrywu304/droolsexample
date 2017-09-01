@@ -1,0 +1,37 @@
+package rules.grading
+
+import org.pub.drools.sprdrools.grading.ExamScore;
+import org.pub.drools.sprdrools.grading.GradingResult;
+
+rule "1grading for level JA"
+
+    when
+        $score : ExamScore(yuwenScore+shuxueScore+yingyuScore >= 270)
+        $result: GradingResult()
+    then
+    	//GLIST.add("add jingying A");
+        $result.setLevel("精英A");
+        System.out.println($score.getStuId()+" 精英A Level");
+        //System.out.println("rule.name:" + kcontext.getRule().getName());
+end
+
+rule "1grading for level JB"
+
+    when
+        $score : ExamScore(yuwenScore+shuxueScore+yingyuScore < 270 && yuwenScore+shuxueScore+yingyuScore >= 210)
+    	$result: GradingResult()
+    then
+    	///GLIST.add("add jingying B");
+        $result.setLevel("精英B");
+        System.out.println($score.getStuId()+" 精英B Level");
+end
+
+rule "1grading for level Other"
+
+    when
+        $score : ExamScore(yuwenScore+shuxueScore+yingyuScore < 210)
+        $result: GradingResult()
+    then
+        $result.setLevel("Other");
+        System.out.println($score.getStuId()+"Other Level");
+end

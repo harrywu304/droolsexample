@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <description>
+        This is the main Spring configuration file with some of the main "core" classes defined. You shouldn't really
+        modify this unless you know what you're doing!
+    </description>
+
+	<!-- 自动扫描导入子配置 -->
+	<import resource="classpath*:**/spring-*.xml" />
+	
+	<!-- 自动扫描应用目录，注册component，忽略Controller类型注解component, Controller由mvc子配置来设置扫描 -->
+	<context:component-scan base-package="org.pub">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>	
+
+	<!-- 加载属性文件信息到全局的Properties对象  -->
+	<bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath*:/app.properties</value>
+            </list>
+        </property>
+    </bean>	
+
+	<!-- 对Spring配置文件中的属性占位符进行渲染  -->
+    <bean id="propertiesPlaceholder" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+        <property name="properties" ref="configProperties" />
+    </bean>	
+
+</beans>

@@ -1,0 +1,15 @@
+package rules.grading
+
+import org.pub.drools.sprdrools.grading.ExamScore;
+import org.pub.drools.sprdrools.grading.GradingResult;
+
+
+rule "test loop rule"
+	no-loop true
+    when
+    	$es:ExamScore()
+    then
+        System.out.println("rule.name:" + kcontext.getRule().getName());
+        update($es)
+end
+

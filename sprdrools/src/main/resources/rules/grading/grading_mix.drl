@@ -1,0 +1,42 @@
+package rules.grading
+
+import org.pub.drools.sprdrools.grading.ExamScore;
+import org.pub.drools.sprdrools.grading.GradingResult;
+
+declare Mixing
+   score: ExamScore
+   thresholds:Thresholds
+end
+
+rule "init3"
+	salience 99
+	when
+	    eval(true)
+	    $score:ExamScore()
+	    $thresholds:Thresholds()
+	then    
+	    Mixing mixing= new Mixing();
+	    mixing.setScore($score);
+	    mixing.setThresholds($thresholds);
+	    insert(mixing);
+end
+
+/*
+rule "mixing rule"
+    date-effective "2017-08-29" 
+    date-expires "2017-08-29" 
+    when
+        Mixing(score.yuwenScore >= thresholds.yuwenLine)
+    then
+        System.out.println("语文精英A Level");
+end
+*/
+
+rule "mixing rule"
+    when
+    	Thresholds($yuwenLine:yuwenLine)
+    	ExamScore(yuwenScore >= $yuwenLine)
+    then
+        System.out.println("语文精英3A Level");
+end
+
